@@ -43,8 +43,8 @@ pipeline {
 
             //pull and run. for now, just run the locally created image. NOTE: mysql container should be running.
                   // before running, stop and remove the previously started container for this application.
-                  sh 'docker stop mini_2_app_deploy || true'
-                  sh 'docker rm mini_2_app_deploy || true'
+                  sh 'sudo docker stop mini_2_app_deploy || true'
+                  sh 'sudo docker rm mini_2_app_deploy || true'
             sh "sudo docker run --name mini_2_app_deploy -d --link mysql:mysql -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mini2_2 -p 4000:4000 mini_2_app_deploy"
             echo "deployed successfully"
           }
