@@ -42,7 +42,7 @@ pipeline {
             // sh 'docker push myregistry/myapp:latest'
 
             //pull and run. for now, just run the locally created image. NOTE: mysql container should be running.
-            sh "sudo docker run --name mini_2_app_deploy --link mysql:mysql -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mini2_2 -p 4000:4000 mini_2_app_deploy"
+            sh "sudo docker run -d --name mini_2_app_deploy --link mysql:mysql -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mini2_2 -p 4000:4000 mini_2_app_deploy"
             echo "deployed successfully"
           }
         }
