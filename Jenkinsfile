@@ -1,26 +1,16 @@
 pipeline {
     agent any
-
+    
     tools {
-        // Install the Maven version configured as "M3" and add it to the path.
         maven "mvn_wsl_from_windows"
     }
 
     stages {        
         stage('Build') {
             steps {
-                echo "building"
+                echo "building JAR"
                 sh "mvn clean package"
             }
-            
-            // post {
-            //     // If Maven was able to run the tests, even if some of the test
-            //     // failed, record the test results and archive the jar file.
-            //     success {
-            //         // junit '**/target/surefire-reports/TEST-*.xml'
-            //         // archiveArtifacts 'target/*.jar'
-            //     }
-            // }
         }
         
         stage('Unit tests'){
@@ -32,6 +22,7 @@ pipeline {
 
         stage('Create Docker image'){
           steps{
+            echo "Creating Docker image"
             sh "sudo docker build -t mini_2_app_deploy ."
           }
         }
@@ -39,9 +30,8 @@ pipeline {
         stage('Deploy'){
           steps{
             // Push Docker image to Docker registry. For now, skipping.
-            // sh 'docker push myregistry/myapp:latest'
 
-            //pull and run. for now, just run the locally created image. NOTE: mysql container should be running.
+            // Run the image. NOTE: mysql container should be running.
                   // before running, stop and remove the previously started container for this application.
                   sh 'sudo docker stop mini_2_app_deploy || true'
                   sh 'sudo docker rm mini_2_app_deploy || true'
